@@ -13,5 +13,6 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(MainActivity.this, SensorInput.class);
         startActivity(i);
         finish();
+
     }
 }
