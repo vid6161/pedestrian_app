@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".CommunicationActivity"
+    android:background="@color/white">
+
+    <ImageButton
+        android:id="@+id/imageButtonSet"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/blue_button"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDelay"
+        tools:layout_editor_absoluteX="10dp" />
+
+    <TextView
+        android:id="@+id/textViewCommunication"
+        android:layout_width="248dp"
+        android:layout_height="126dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="Communication Delay"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonSet"
+        app:layout_constraintEnd_toEndOf="@+id/imageButtonSet"
+        app:layout_constraintStart_toStartOf="@+id/imageButtonSet"
+        app:layout_constraintTop_toTopOf="@+id/imageButtonSet" />
+
+    <EditText
+        android:id="@+id/editTextDelay"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/grey_box"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCommunication"
+        tools:layout_editor_absoluteX="10dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

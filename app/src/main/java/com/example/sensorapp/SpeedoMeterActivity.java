@@ -23,7 +23,7 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 
-public class SpeedoMeter extends AppCompatActivity {
+public class SpeedoMeterActivity extends AppCompatActivity {
 
     private SpeedometerView Speed;
     private TextView txtSpeedometer;
@@ -69,7 +69,7 @@ public class SpeedoMeter extends AppCompatActivity {
                 if (e instanceof ResolvableApiException) {
                     try {
                         ResolvableApiException resolvable = (ResolvableApiException) e;
-                        resolvable.startResolutionForResult(SpeedoMeter.this, REQUEST_CODE);
+                        resolvable.startResolutionForResult(SpeedoMeterActivity.this, REQUEST_CODE);
                     } catch (IntentSender.SendIntentException sendIntentException) {
                         sendIntentException.printStackTrace();
                     }

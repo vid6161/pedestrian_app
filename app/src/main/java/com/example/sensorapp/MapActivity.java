@@ -12,11 +12,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.Settings;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -69,6 +72,38 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Toast.makeText(this, "Google Play services Not Available", Toast.LENGTH_SHORT).show();
             }
         }
+        inputLocation.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    onClick();
+                    return true;
+                }
+                return false;
+            }
+            private void onClick() {
+                String location = inputLocation.getText().toString();
+                if (location == null) {
+                    Toast.makeText(MapActivity.this, "Type any Location", Toast.LENGTH_SHORT).show();
+                } else {
+                    Geocoder geocoder = new Geocoder(MapActivity.this, Locale.getDefault());
+                    try {
+                        List<Address> listAddress = geocoder.getFromLocationName(location, 1);
+                        if (listAddress.size() > 0) {
+                            LatLng latlng = new LatLng(listAddress.get(0).getLatitude(), listAddress.get(0).getLongitude());
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.title("My Search position");
+                            markerOptions.position(latlng);
+                            googleMap.addMarker(markerOptions);
+                            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latlng, 5);
+                            googleMap.animateCamera(cameraUpdate);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
         imageViewSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,7 +249,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } catch (Exception e) {
             Toast.makeText(this, "No Permission Granted for precise location",
                     Toast.LENGTH_LONG).show();
-            Intent x = new Intent(MapActivity.this, SensorInput.class);
+            Intent x = new Intent(MapActivity.this, SensorInputActivity.class);
             startActivity(x);
         }
 
@@ -227,7 +262,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mapView.onResume();
         } catch (Exception e) {
 
-            Intent x = new Intent(MapActivity.this, SensorInput.class);
+            Intent x = new Intent(MapActivity.this, SensorInputActivity.class);
             startActivity(x);
         }
 
@@ -239,7 +274,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         try {
             mapView.onPause();
         } catch (Exception e) {
-            Intent x = new Intent(MapActivity.this, SensorInput.class);
+            Intent x = new Intent(MapActivity.this, SensorInputActivity.class);
             startActivity(x);
         }
 
@@ -251,7 +286,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         try {
             mapView.onStop();
         } catch (Exception e) {
-            Intent x = new Intent(MapActivity.this, SensorInput.class);
+            Intent x = new Intent(MapActivity.this, SensorInputActivity.class);
             startActivity(x);
         }
     }
@@ -262,7 +297,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         try {
             mapView.onDestroy();
         } catch (Exception e) {
-            Intent x = new Intent(MapActivity.this, SensorInput.class);
+            Intent x = new Intent(MapActivity.this, SensorInputActivity.class);
             startActivity(x);
         }
     }
@@ -279,7 +314,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         try {
             mapView.onLowMemory();
         } catch (Exception e) {
-            Intent x = new Intent(MapActivity.this, SensorInput.class);
+            Intent x = new Intent(MapActivity.this, SensorInputActivity.class);
             startActivity(x);
         }
     }

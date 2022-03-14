@@ -15,7 +15,7 @@ import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-public class GraphView extends AppCompatActivity implements SensorEventListener {
+public class GraphViewActivity extends AppCompatActivity implements SensorEventListener {
     private final String TAG = "GraphSensors";
     private SensorManager mSensorManager;
     private Sensor mSensor;

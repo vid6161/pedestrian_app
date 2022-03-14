@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="20dp"
+    tools:context=".UserViewActivity">
+
+    <EditText
+        android:id="@+id/editTextPortUser"
+        android:layout_width="111dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/grey_box"
+        android:ems="10"
+        android:hint="PORT"
+        android:inputType="number"
+        android:padding="10dp"
+        android:text=""
+        android:translationZ="2dp"
+        app:layout_constraintStart_toEndOf="@+id/editTextIpUser"
+        app:layout_constraintTop_toBottomOf="@+id/textViewIpPortUser" />
+
+    <ImageView
+        android:id="@+id/imageViewCommu"
+        android:layout_width="370dp"
+        android:layout_height="136dp"
+        android:layout_marginTop="16dp"
+        android:translationZ="-1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:srcCompat="@drawable/button_rounded_corners" />
+
+    <ImageButton
+        android:id="@+id/imageButtonDeveloper"
+        android:layout_width="128dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_rounded_corners"
+        android:src="@drawable/ic_baseline_settings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewWarning1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Warning 1"
+        android:textColor="#FF0000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewWarning2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Warning 2"
+        android:textColor="#FF0000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWarning1" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="208dp"
+        android:layout_height="208dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/onoff"
+        android:text="ToggleButton"
+        android:textColor="#C1C4CE"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextIpUser" />
+
+    <EditText
+        android:id="@+id/editTextIpUser"
+        android:layout_width="205dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/grey_box"
+        android:ems="10"
+        android:hint="IP"
+        android:inputType="number"
+        android:padding="10dp"
+        android:text=""
+        android:translationZ="2dp"
+        app:layout_constraintStart_toStartOf="@+id/textViewIpPortUser"
+        app:layout_constraintTop_toBottomOf="@+id/textViewIpPortUser" />
+
+    <TextView
+        android:id="@+id/textViewIpPortUser"
+        android:layout_width="175dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="70dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="Enter IP:PORT"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWarning2" />
+
+    <ImageView
+        android:id="@+id/imageViewWarningIcon"
+        android:layout_width="89dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewWarning2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewWarning1"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_baseline_warning" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="364dp"
+        android:layout_height="131dp"
+        android:layout_marginTop="24dp"
+        android:translationZ="-1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/button_rounded_corners" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

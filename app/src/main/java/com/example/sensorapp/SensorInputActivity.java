@@ -31,7 +31,7 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 
-public class SensorInput extends AppCompatActivity implements SensorEventListener {
+public class SensorInputActivity extends AppCompatActivity implements SensorEventListener {
     private TextView textview_accelerometer, textview_gyroscope, textview_location, textview_speed, textview_magnetic;
     private SensorManager sensorManager;
     private Sensor accelerometerSensor, gyrometerSensor, magnetometerSensor;
@@ -48,6 +48,10 @@ public class SensorInput extends AppCompatActivity implements SensorEventListene
     private FusedLocationProviderClient fusedLocationProviderClient;
     private boolean locationPermission = true;
 
+    long lastUpdateAc = 0;
+    long lastUpdateGy = 0;
+    long lastUpdateMg = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +66,7 @@ public class SensorInput extends AppCompatActivity implements SensorEventListene
         imageButton_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mapView = new Intent(SensorInput.this, MapActivity.class);
+                Intent mapView = new Intent(SensorInputActivity.this, MapActivity.class);
                 startActivity(mapView);
             }
         });
@@ -71,7 +75,7 @@ public class SensorInput extends AppCompatActivity implements SensorEventListene
         imageButton_accelerometer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent graphview = new Intent(SensorInput.this, GraphView.class);
+                Intent graphview = new Intent(SensorInputActivity.this, GraphViewActivity.class);
                 startActivity(graphview);
             }
         });
@@ -79,7 +83,7 @@ public class SensorInput extends AppCompatActivity implements SensorEventListene
         imageButton_gyroscope.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent graphview = new Intent(SensorInput.this, GraphView.class);
+                Intent graphview = new Intent(SensorInputActivity.this, GraphViewActivity.class);
                 startActivity(graphview);
             }
         });
@@ -87,7 +91,7 @@ public class SensorInput extends AppCompatActivity implements SensorEventListene
         imageButton_magnetic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent graphview = new Intent(SensorInput.this, GraphView.class);
+                Intent graphview = new Intent(SensorInputActivity.this, GraphViewActivity.class);
                 startActivity(graphview);
             }
         });
@@ -96,7 +100,7 @@ public class SensorInput extends AppCompatActivity implements SensorEventListene
         imageButton_speed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent speedometer = new Intent(SensorInput.this, SpeedoMeter.class);
+                Intent speedometer = new Intent(SensorInputActivity.this, SpeedoMeterActivity.class);
                 startActivity(speedometer);
             }
         });
@@ -108,7 +112,7 @@ public class SensorInput extends AppCompatActivity implements SensorEventListene
 
         request = LocationRequest.create().setFastestInterval(300)
                 .setInterval(300)
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         builder = new LocationSettingsRequest.Builder().addLocationRequest(request);
 
@@ -120,7 +124,7 @@ public class SensorInput extends AppCompatActivity implements SensorEventListene
                 if (e instanceof ResolvableApiException) {
                     try {
                         ResolvableApiException resolvable = (ResolvableApiException) e;
-                        resolvable.startResolutionForResult(SensorInput.this, REQUEST_CODE);
+                        resolvable.startResolutionForResult(SensorInputActivity.this, REQUEST_CODE);
                     } catch (IntentSender.SendIntentException sendIntentException) {
                         sendIntentException.printStackTrace();
                     }
@@ -191,16 +195,21 @@ public class SensorInput extends AppCompatActivity implements SensorEventListene
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+        long actualTime = sensorEvent.timestamp;
         if (sensorEvent.sensor == accelerometerSensor) {
-            accelerometerChangedValue[0] = String.valueOf(sensorEvent.values[0]);
-            accelerometerChangedValue[1] = String.valueOf(sensorEvent.values[1]);
-            accelerometerChangedValue[2] = String.valueOf(sensorEvent.values[2]);
-            String accelerometer = "x:  " + accelerometerChangedValue[0] + " m/s²\n" +
-                    "y:  " + accelerometerChangedValue[1] + " m/s²\n" +
-                    "z:  " + accelerometerChangedValue[2] + " m/s²";
 
-            textview_accelerometer.setText(accelerometer);
-        } else if (sensorEvent.sensor == gyrometerSensor) {
+            //get the event's timestamp
+            if (actualTime - lastUpdateAc > 500000000) {
+                accelerometerChangedValue[0] = String.valueOf(sensorEvent.values[0]);
+                accelerometerChangedValue[1] = String.valueOf(sensorEvent.values[1]);
+                accelerometerChangedValue[2] = String.valueOf(sensorEvent.values[2]);
+                String accelerometer = "x:  " + accelerometerChangedValue[0] + " m/s²\n" +
+                        "y:  " + accelerometerChangedValue[1] + " m/s²\n" +
+                        "z:  " + accelerometerChangedValue[2] + " m/s²";
+
+                textview_accelerometer.setText(accelerometer);
+                lastUpdateAc = actualTime;
+            }} else if (sensorEvent.sensor == gyrometerSensor && actualTime - lastUpdateGy > 200000000 ) {
             gyrometerChangedValue[0] = String.valueOf(sensorEvent.values[0]);
             gyrometerChangedValue[1] = String.valueOf(sensorEvent.values[1]);
             gyrometerChangedValue[2] = String.valueOf(sensorEvent.values[2]);
@@ -209,7 +218,8 @@ public class SensorInput extends AppCompatActivity implements SensorEventListene
                     "z:    " + gyrometerChangedValue[2] + " rad/s";
 
             textview_gyroscope.setText(gyrometer);
-        } else if (sensorEvent.sensor == magnetometerSensor) {
+            lastUpdateGy =actualTime;
+        } else if (sensorEvent.sensor == magnetometerSensor && actualTime - lastUpdateMg > 400000000) {
             magnetometerChangedValue[0] = String.valueOf(sensorEvent.values[0]);
             magnetometerChangedValue[1] = String.valueOf(sensorEvent.values[1]);
             magnetometerChangedValue[2] = String.valueOf(sensorEvent.values[2]);
@@ -218,6 +228,7 @@ public class SensorInput extends AppCompatActivity implements SensorEventListene
                     "z:    " + magnetometerChangedValue[2] + " μT";
 
             textview_magnetic.setText(magnetometer);
+            lastUpdateMg =actualTime;
         }
     }
 
@@ -231,7 +242,7 @@ public class SensorInput extends AppCompatActivity implements SensorEventListene
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
-            ActivityCompat.requestPermissions(SensorInput.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(SensorInputActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)

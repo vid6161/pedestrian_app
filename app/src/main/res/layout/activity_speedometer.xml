@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SpeedoMeter">
+    tools:context=".SpeedoMeterActivity"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/txtSpeedometer"
@@ -19,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.sensor4.SpeedometerView
+    <com.example.sensorapp.SpeedometerView
         android:id="@+id/speedometer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

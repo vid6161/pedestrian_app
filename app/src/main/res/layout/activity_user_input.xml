@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserInputActivity"
+    android:padding="20dp"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/textViewUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="150dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Name "
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewUserAge"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Age"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUserName" />
+
+    <TextView
+        android:id="@+id/textViewUserHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Height"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupGender" />
+
+    <TextView
+        android:id="@+id/textViewUserWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Weight"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUserHeight" />
+
+    <EditText
+        android:id="@+id/editTextUserName"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/grey_box"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUserName" />
+
+    <ImageView
+        android:id="@+id/imageViewPerson"
+        android:layout_width="118dp"
+        android:layout_height="114dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_person" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="126dp" />
+
+    <EditText
+        android:id="@+id/editTextUserAge"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/grey_box"
+        android:ems="10"
+        android:hint="Age"
+        android:inputType="number"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="@+id/textViewUserAge"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUserAge" />
+
+    <EditText
+        android:id="@+id/editTextUserHeight"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/grey_box"
+        android:ems="10"
+        android:hint="centimeters"
+        android:inputType="number"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="@+id/textViewUserHeight"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUserHeight" />
+
+    <EditText
+        android:id="@+id/editTextUserWeight"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/grey_box"
+        android:ems="10"
+        android:hint="kilogram"
+        android:inputType="number"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="@+id/textViewUserWeight"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUserWeight" />
+
+    <ImageButton
+        android:id="@+id/imageButtonNextUserInput"
+        android:layout_width="137dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/blue_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUserWeight" />
+
+    <TextView
+        android:id="@+id/textViewUserGender"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Gender"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUserAge" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupGender"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/textViewUserGender"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUserGender">
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:text="Male"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:text="Female"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:text="Other"
+            android:textSize="14sp" />
+    </RadioGroup>
+
+    <ImageButton
+        android:id="@+id/imageButtonSkip"
+        android:layout_width="137dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/skipbutton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUserWeight" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SKIP"
+        android:textColor="#FF0A84FF"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonSkip"
+        app:layout_constraintEnd_toEndOf="@+id/imageButtonSkip"
+        app:layout_constraintStart_toStartOf="@+id/imageButtonSkip"
+        app:layout_constraintTop_toTopOf="@+id/imageButtonSkip" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NEXT"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonNextUserInput"
+        app:layout_constraintEnd_toEndOf="@+id/imageButtonNextUserInput"
+        app:layout_constraintStart_toStartOf="@+id/imageButtonNextUserInput"
+        app:layout_constraintTop_toTopOf="@+id/imageButtonNextUserInput" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
