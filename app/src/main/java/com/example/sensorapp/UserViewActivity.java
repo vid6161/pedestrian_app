@@ -23,6 +23,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,7 +58,7 @@ import java.net.InetSocketAddress;
 
 public class UserViewActivity extends AppCompatActivity {
 
-    int decision;
+    private int decision;
     int delay;
     ImageButton imageButtonDeveloper;
     ToggleButton toggleButton;
@@ -140,14 +141,14 @@ public class UserViewActivity extends AppCompatActivity {
 
         delay = Integer.parseInt(Share.getDelay("delay",this));
 
-        String selection = Share.getDefaults("decision",this);
+        String select = Share.getDefaults("FM",this);
 
         //No fusion
-        if(selection.equals("1")){
+        if(select.equals("1")){
             decision= 1;
         }
         //Kalman filter
-        else if(selection.equals("2")) {
+        else if(select.equals("2")) {
             decision=2;
         }
 
