@@ -23,7 +23,7 @@
         android:layout_height="126dp"
         android:layout_marginTop="50dp"
         android:gravity="center"
-        android:text="Communication Delay"
+        android:text="Communication Frequency"
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -50,6 +50,8 @@
         android:layout_marginTop="50dp"
         android:background="@drawable/grey_box"
         android:ems="10"
+        android:padding="10dp"
+        android:hint="(1-10)"
         android:inputType="number"
         app:layout_constraintTop_toBottomOf="@+id/textViewCommunication"
         tools:layout_editor_absoluteX="10dp" />

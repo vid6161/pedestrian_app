@@ -38,9 +38,11 @@ public class SpeedoMeterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speedometer);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         txtSpeedometer = findViewById(R.id.txtSpeedometer);
         getGPS();
+
         Speed = (SpeedometerView) findViewById(R.id.speedometer);
         Speed.setLabelConverter(new SpeedometerView.LabelConverter() {
             @Override

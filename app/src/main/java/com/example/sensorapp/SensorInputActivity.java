@@ -198,7 +198,7 @@ public class SensorInputActivity extends AppCompatActivity implements SensorEven
         long actualTime = sensorEvent.timestamp;
         if (sensorEvent.sensor == accelerometerSensor) {
 
-            //get the event's timestamp
+            //if condition for slowing down the sensor updates
             if (actualTime - lastUpdateAc > 500000000) {
                 accelerometerChangedValue[0] = String.valueOf(sensorEvent.values[0]);
                 accelerometerChangedValue[1] = String.valueOf(sensorEvent.values[1]);

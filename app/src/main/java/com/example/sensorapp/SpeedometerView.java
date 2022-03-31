@@ -116,7 +116,6 @@ public class SpeedometerView extends View {
                 Double value = (Double) animation.getAnimatedValue();
                 if (value != null)
                     setSpeed(value);
-                Log.d(TAG, "setSpeed(): onAnumationUpdate() -> value = " + value);
             }
         });
         va.start();

@@ -25,6 +25,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -96,6 +97,7 @@ public class UserViewActivity extends AppCompatActivity {
     public double longitude = 0;
     public float speed = 0;
     public float bearing = 0;
+    public float accuracy = 0;
 
     TextView editTextIpUser;
     TextView editTextPortUser;
@@ -167,10 +169,9 @@ public class UserViewActivity extends AppCompatActivity {
         cursor.moveToPosition(0);
         //Database end
 
-        Share sa = new Share();
         delay = Integer.parseInt(Share.getDelay("delay",this));
 
-        String matt = Share.getDefaults("VIP",this);
+        String matt = Share.getDefaults("decision",this);
         if(matt.equals("1")){
             decision= 1;
         }
@@ -178,17 +179,8 @@ public class UserViewActivity extends AppCompatActivity {
             decision=2;
         }
 
-        //batton.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-         //   public void onClick(View v) {
-         //       textViewValue.setText(String.valueOf(decision));
-         //   }
-        //});
-
         imageButtonDeveloper = findViewById(R.id.imageButtonDeveloper);
         toggleButton = findViewById(R.id.toggleButton);
-
-        Log.d("f", String.valueOf(matt));
 
         editTextIpUser = findViewById(R.id.editTextIpUser);
         editTextPortUser = findViewById(R.id.editTextPortUser);
@@ -276,12 +268,14 @@ public class UserViewActivity extends AppCompatActivity {
                         longitude = location.getLongitude();
                         speed = location.getSpeed();
                         bearing = location.getBearing();
+                        accuracy = location.getAccuracy();
                     }
                     else if(decision==2) {
                         lng = Math.toRadians(location.getLongitude());
                         lat = Math.toRadians(location.getLatitude());
                         speed = location.getSpeed();
                         bearing = location.getBearing();
+                        accuracy = location.getAccuracy();
                         getXY(lat, lng);
                     }
                 }
@@ -381,7 +375,6 @@ public class UserViewActivity extends AppCompatActivity {
                 udpSocket.setReuseAddress(true);
                 udpSocket.bind(new InetSocketAddress(wifiModulePort));
                 InetAddress serverAddr = InetAddress.getByName(wifiModuleIp);
-                //Log.d("x", String.valueOf(isCancelled()));
                 while (!isCancelled()) {
                     byte[] buf1 = getbuf();
                     DatagramPacket packet = new DatagramPacket(buf1, buf1.length, serverAddr, wifiModulePort);
@@ -396,6 +389,8 @@ public class UserViewActivity extends AppCompatActivity {
     }
     private byte[] getbuf() {
         Person person;
+        long time = System.currentTimeMillis();
+        String id = Settings.Secure.getString(this.getContentResolver(),Settings.Secure.ANDROID_ID);
         if(cursor.getCount()!=0) {
             person = Person.newBuilder().setName(cursor.getString(1))
                     .setAge(Integer.parseInt(cursor.getString(2)))
@@ -407,7 +402,7 @@ public class UserViewActivity extends AppCompatActivity {
             person = Person.newBuilder().setName("Null").setAge(0).setGender("Null").setHeight(0).setWeight(0).build();
         }
         Position position = Position.newBuilder().setLatitude(latitude).setLongitude(longitude).build();
-        SensorData sensor = SensorData.newBuilder().setPerson(person).setPosition(position).setSpeed(speed).setHeading(bearing).build();
+        SensorData sensor = SensorData.newBuilder().setPerson(person).setPosition(position).setSpeed(speed).setHeading(bearing).setAccuracy(accuracy).setTime(time).setDeviceid(id).build();
         sensor.toByteArray();
         return sensor.toByteArray();
     }

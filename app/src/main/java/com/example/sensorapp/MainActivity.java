@@ -25,12 +25,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         imageButtonStart = findViewById(R.id.imageButtonStart);
+        TextView textViewWelcome = findViewById(R.id.textViewWelcome);
 
         MyDatabaseHelper myDB = new MyDatabaseHelper(MainActivity.this);
         Cursor cursor = myDB.readAllData();
         cursor.moveToPosition(0);
 
-        TextView textViewWelcome = (TextView) findViewById(R.id.textViewWelcome);
+        //Welcome text
         textViewWelcome.setText("Welcome!");
         TextPaint paint = textViewWelcome.getPaint();
         float width = paint.measureText("Welcome!");
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         textViewWelcome.getPaint().setShader(textShader);
         textViewWelcome.setTextColor(Color.parseColor("#F97C3C"));
 
+        //Start button
         imageButtonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

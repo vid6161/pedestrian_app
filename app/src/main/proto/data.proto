@@ -8,6 +8,9 @@ message SensorData {
   Position position = 2;
   float speed = 3;
   float heading = 4;
+  float accuracy = 5;
+  uint64 time = 6;
+  string deviceid = 7;
 }
 
 message Position {

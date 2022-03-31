@@ -6,17 +6,19 @@ import android.preference.PreferenceManager;
 
 public class Share {
 
+    //setting fusion method
     public static void setDefaults(String key, String value, Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
-        editor.apply(); // or editor.commit() in case you want to write data instantly
+        editor.apply();
     }
+    //setting delay from communication frequency
     public static void setDelay(String key, String value, Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
-        editor.apply(); // or editor.commit() in case you want to write data instantly
+        editor.apply();
     }
     public static String getDefaults(String key, Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);

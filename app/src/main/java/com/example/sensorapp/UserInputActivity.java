@@ -33,6 +33,8 @@ public class UserInputActivity extends AppCompatActivity {
         MyDatabaseHelper myDB = new MyDatabaseHelper(UserInputActivity.this);
 
         imageButtonNextUserInput = findViewById(R.id.imageButtonNextUserInput);
+
+        //Next Button
         imageButtonNextUserInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +63,7 @@ public class UserInputActivity extends AppCompatActivity {
                     Cursor cursor = myDB.readAllData();
                     cursor.moveToPosition(0);
 
+                    //Alert box to confirm user
                     AlertDialog.Builder builder = new AlertDialog.Builder(UserInputActivity.this);
                     builder.setTitle("Do you want to save this user?");
                     builder.setMessage("Name: "+ name.getText()+"\n"+
@@ -102,6 +105,7 @@ public class UserInputActivity extends AppCompatActivity {
             }
         });
 
+        //Skip button
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

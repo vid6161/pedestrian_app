@@ -35,7 +35,6 @@ public class GraphViewActivity extends AppCompatActivity implements SensorEventL
         setContentView(R.layout.activity_graph);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //TODO make this onCreate method not suck and subclass graphs and series
         mGraphGyro = initGraph(R.id.graphGyro, "Sensor.TYPE_GYROSCOPE");
         mGraphAccel = initGraph(R.id.graphAccel, "Sensor.TYPE_ACCELEROMETER");
         mGraphMag = initGraph(R.id.graphMag, "Sensor.TYPE_MAGNETIC_FIELD");
@@ -135,12 +134,10 @@ public class GraphViewActivity extends AppCompatActivity implements SensorEventL
             mSeriesMagZ.appendData(new DataPoint(graphLastMagXValue, event.values[2]), true, 33);
         }
         String dataString = String.valueOf(event.accuracy) + "," + String.valueOf(event.timestamp) + "," + String.valueOf(event.sensor.getType()) + "\n";
-        Log.d(TAG, "Data received: " + dataString);
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        Log.d(TAG, "onAccuracyChanged called for the gyro");
     }
 
 

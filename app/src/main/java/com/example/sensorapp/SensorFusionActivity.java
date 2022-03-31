@@ -8,9 +8,6 @@ import android.widget.RadioGroup;
 
 public class SensorFusionActivity extends AppCompatActivity {
 
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String VALUE = "1";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,22 +15,26 @@ public class SensorFusionActivity extends AppCompatActivity {
         RadioGroup fusion = findViewById(R.id.radioGroupfusion);
 
         Share sap = new Share();
-        String mxx = sap.getDefaults("VIP",this);
+        String decision = sap.getDefaults("decision",this);
 
-        if(mxx.equals("1")){
+        //No Fusion
+        if(decision.equals("1")){
             fusion.check(R.id.radioButtonNo);
         }
-        else if(mxx.equals("2")){
+
+        //Kalman Filter
+        else if(decision.equals("2")){
             fusion.check(R.id.radioButtonKalman);
         }
+
         fusion.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(fusion.getCheckedRadioButtonId() == R.id.radioButtonNo){
-                    Share.setDefaults("VIP","1",SensorFusionActivity.this);
+                    Share.setDefaults("decision","1",SensorFusionActivity.this);
                 }
                 else if(fusion.getCheckedRadioButtonId() == R.id.radioButtonKalman){
-                    Share.setDefaults("VIP","2",SensorFusionActivity.this);
+                    Share.setDefaults("decision","2",SensorFusionActivity.this);
                 }
 
             }
