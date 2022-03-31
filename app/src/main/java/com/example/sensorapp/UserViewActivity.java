@@ -6,19 +6,16 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.icu.text.Transliterator;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -26,12 +23,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +39,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 
@@ -61,38 +54,23 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserViewActivity extends AppCompatActivity {
 
-    int myValue;
     int decision;
     int delay;
-
     ImageButton imageButtonDeveloper;
     ToggleButton toggleButton;
 
-    Button btnSend;
-    EditText txtIP;
-    TextView textView;
     public static String wifiModuleIp = "";
     public static int wifiModulePort = 0;
-    private final Handler handler = new Handler();
-    public byte[] buf = ("GOIT").getBytes();
 
     private LocationRequest request;
     private LocationSettingsRequest.Builder builder;
     private final int REQUEST_CODE = 8990;
     private LocationCallback locationCallback;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private boolean locationPermission = true;
 
-    public String locationvalue;
     public double latitude = 0;
     public double longitude = 0;
     public float speed = 0;
@@ -101,8 +79,6 @@ public class UserViewActivity extends AppCompatActivity {
 
     TextView editTextIpUser;
     TextView editTextPortUser;
-
-    public boolean isFirsttime=true;
     public Socket_AsyncTask senddata;
 
     //KALMAN START
@@ -113,7 +89,6 @@ public class UserViewActivity extends AppCompatActivity {
     private Sensor accelerationSensor;
     private Sensor gravitySensor;
     private Sensor mangeticSensor;
-
     // Listeners
     private UserViewActivity.AccelerationSensorListener accelerationListener;
     private UserViewActivity.GravitySensorListener gravitySensorListener;
@@ -126,7 +101,6 @@ public class UserViewActivity extends AppCompatActivity {
     /* in meters*/
     private double x;
     private double y;
-
     private double xV;
     private double yV;
     private double xA;
@@ -152,30 +126,28 @@ public class UserViewActivity extends AppCompatActivity {
     private final float nanosecond = 1.0f / 1000000000.0f;
 
     private final Handler handlerKalman = new Handler();
-    double u1,u2;
-    //KALMAN END
     Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_view);
-        //TextView textViewValue = findViewById(R.id.textViewValue);
-        //Button batton = findViewById(R.id.buttonClick);
 
-        //Database start
+        //Database
         MyDatabaseHelper myDB = new MyDatabaseHelper(UserViewActivity.this);
         cursor = myDB.readAllData();
         cursor.moveToPosition(0);
-        //Database end
 
         delay = Integer.parseInt(Share.getDelay("delay",this));
 
-        String matt = Share.getDefaults("decision",this);
-        if(matt.equals("1")){
+        String selection = Share.getDefaults("decision",this);
+
+        //No fusion
+        if(selection.equals("1")){
             decision= 1;
         }
-        else if(matt.equals("2")) {
+        //Kalman filter
+        else if(selection.equals("2")) {
             decision=2;
         }
 
@@ -193,11 +165,10 @@ public class UserViewActivity extends AppCompatActivity {
                 }
                 Intent i = new Intent(UserViewActivity.this, DeveloperViewActivity.class);
                 startActivity(i);
-                //finish();
             }
         });
-        //getIPandPort();
 
+        //on off button
         toggleButton.setText(null);
         toggleButton.setTextOn(null);
         toggleButton.setTextOff(null);
@@ -225,7 +196,7 @@ public class UserViewActivity extends AppCompatActivity {
             }
         });
 
-        //KALMAN START
+        //KALMAN
         /* assume stationary when app opens*/
         xV = 0D;
         yV = 0D;
@@ -282,7 +253,6 @@ public class UserViewActivity extends AppCompatActivity {
             }
         };
 
-        //end
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         /* Initialize Accelerometer */
@@ -299,11 +269,12 @@ public class UserViewActivity extends AppCompatActivity {
         sensorManager.registerListener(gravitySensorListener, gravitySensor, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(magneticSensorListener, mangeticSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
+        //kalman filter
         if(decision==2){
             onClick_StartTracking();
         }
-        //KALMAN END
     }
+
     //EXIT & INFO BUTTON
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -358,10 +329,6 @@ public class UserViewActivity extends AppCompatActivity {
     //EXIT & INFO BUTTON
 
     public void getIPandPort() {
-        //String iPandPort = editTextIpPortUser.getText().toString();
-        //String temp[] = iPandPort.split(":");
-        //wifiModuleIp = temp[0];
-        //wifiModulePort = Integer.valueOf(temp[1]);
         wifiModuleIp = editTextIpUser.getText().toString();
         wifiModulePort = Integer.valueOf(editTextPortUser.getText().toString());
     }
@@ -420,13 +387,11 @@ public class UserViewActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        //fusedLocationProviderClient.requestLocationUpdates(request, locationCallback, getMainLooper());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //startLocationUpdates();
         startGPS();
     }
 
@@ -448,7 +413,6 @@ public class UserViewActivity extends AppCompatActivity {
             case 1:
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "GPS permission not granted", Toast.LENGTH_SHORT).show();
-                    //finish();
                     stopGPS();
                 }
         }
@@ -466,8 +430,6 @@ public class UserViewActivity extends AppCompatActivity {
         startLocationUpdates();
     }
 
-    //KALMAN START
-
     public void onClick_StartTracking() {
 
         /* Initialize Kalman Filter */
@@ -476,16 +438,13 @@ public class UserViewActivity extends AppCompatActivity {
         handlerKalman.postDelayed(new Runnable() {
             @Override
             public synchronized void run() {
-
+                Double correction = (2 * Math.PI) / 40075170;
                 double[] measuredState = new double[]{x, y, xV, yV};
                 KF.correct(measuredState);
                 KF.predict();
                 double[] stateEstimate = KF.getStateEstimation();
-
-                Double longitudecorrection= (2*Math.PI)/40075160;
-                Double latitudecorrection= (2*Math.PI)/40008000;
-                longitude = Math.toDegrees(stateEstimate[0]*longitudecorrection);
-                latitude = Math.toDegrees(stateEstimate[1]*latitudecorrection);
+                longitude = Math.toDegrees(stateEstimate[0]*correction);
+                latitude = Math.toDegrees(stateEstimate[1]*correction);
                 handlerKalman.postDelayed(this, interval);
             }
         }, 0);
@@ -496,9 +455,9 @@ public class UserViewActivity extends AppCompatActivity {
         double deltaLat = lat - yOrigin;
         double deltaLng = lng - xOrigin;
 
-        double latCircumference = 40075160 * Math.cos(yOrigin);
-        x = deltaLng * latCircumference / 2 / Math.PI;
-        y = deltaLat * 40008000 / 2 / Math.PI;
+        //c(earth) = 2*pi*r
+        x = deltaLng * 40075170 / 2 / Math.PI;
+        y = deltaLat * 40075170 / 2 / Math.PI;
     }
 
     private class AccelerationSensorListener implements SensorEventListener {
@@ -519,7 +478,7 @@ public class UserViewActivity extends AppCompatActivity {
         public synchronized void onSensorChanged(SensorEvent sensorEvent) {
 
             acceleration = castFloatToDouble(sensorEvent.values);
-            acceleration[0] += 0.20;//original
+            acceleration[0] += 0.20;
             acceleration[1] -= 0.08;
 
             phoneAcceleration = MatrixUtils.createRealVector(acceleration);
@@ -534,16 +493,13 @@ public class UserViewActivity extends AppCompatActivity {
                 phoneAcceleration = I.preMultiply(phoneAcceleration);
 
 
-                double newXA = 0.8 * xA + 0.2 * phoneAcceleration.getEntry(0);//original
+                double newXA = 0.8 * xA + 0.2 * phoneAcceleration.getEntry(0);
                 double newYA = 0.8 * yA + 0.2 * phoneAcceleration.getEntry(1);
-
-                u1= newXA;
-                u2= newYA;
 
                 if (timestamp != 0) {
                     dT = (sensorEvent.timestamp - timestamp) * nanosecond;
 
-                    xV += (xA + newXA) * dT / 2;//original
+                    xV += (xA + newXA) * dT / 2;
                     yV += (yA + newYA) * dT / 2;
 
                 }
@@ -553,7 +509,7 @@ public class UserViewActivity extends AppCompatActivity {
                 xA = newXA;
                 yA = newYA;
 
-                if (Math.abs(xV) > 2.0) xV *= 0.6;//original
+                if (Math.abs(xV) > 2.0) xV *= 0.6;
                 if (Math.abs(yV) > 2.0) yV *= 0.6;
 
             }
@@ -607,7 +563,7 @@ public class UserViewActivity extends AppCompatActivity {
 
         @Override
         public RealMatrix getControlMatrix() {
-            double[] control = {0, 0, 0, 0};//original
+            double[] control = {0, 0, 0, 0};
             return MatrixUtils.createRealDiagonalMatrix(control);
         }
 
@@ -619,8 +575,7 @@ public class UserViewActivity extends AppCompatActivity {
 
         @Override
         public RealMatrix getProcessNoise() {
-            // assume no process noise first
-            double[] processNoise = { 0.001,0.001,5,5};//original
+            double[] processNoise = { 0.001,0.001,5,5};
             return MatrixUtils.createRealDiagonalMatrix(processNoise);
         }
 
@@ -652,7 +607,7 @@ public class UserViewActivity extends AppCompatActivity {
 
         @Override
         public RealMatrix getMeasurementNoise() {
-            double[] measurementNoise = {0.2, 0.2, 0.5, 0.5};//original
+            double[] measurementNoise = {0.2, 0.2, 0.5, 0.5};
             return MatrixUtils.createRealDiagonalMatrix(measurementNoise);
         }
     }

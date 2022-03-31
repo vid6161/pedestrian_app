@@ -4,40 +4,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:padding="10dp"
+    tools:context=".MapActivity">
 
-    <EditText
-        android:id="@+id/inputLocationSearch"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:layout_width="300dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/mapView"
-        app:layout_constraintEnd_toStartOf="@+id/imageViewSearch"
+    <com.androidplot.xy.XYPlot
+        android:id="@+id/plot"
+        style="@style/APDefacto.Light"
+        android:layout_width="401dp"
+        android:layout_height="450dp"
+        app:domainTitle="x"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:lineLabelRotationBottom="-45"
+        app:lineLabels="left|bottom"
+        app:rangeTitle="y"
+        app:title="XY Plot" />
 
-    <ImageView
-        android:id="@+id/imageViewSearch"
+    <ImageButton
+        android:id="@+id/imageButtonStartTracking"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/blue_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/plot"
+        tools:layout_editor_absoluteX="10dp" />
+
+    <ImageButton
+        android:id="@+id/imageButtonSetOrigin"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/blue_button"
+        app:layout_constraintBottom_toTopOf="@+id/imageButtonStartTracking"
+        app:layout_constraintTop_toBottomOf="@+id/plot"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <ImageButton
+        android:id="@+id/imageButtonStop"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/blue_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButtonStartTracking"
+        tools:layout_editor_absoluteX="3dp" />
+
+    <TextView
+        android:id="@+id/textViewStart1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_baseline_search_24"
-        app:layout_constraintBottom_toTopOf="@+id/mapView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Start"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonStartTracking"
+        app:layout_constraintEnd_toEndOf="@+id/imageButtonStartTracking"
+        app:layout_constraintStart_toStartOf="@+id/imageButtonStartTracking"
+        app:layout_constraintTop_toTopOf="@+id/imageButtonStartTracking" />
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="45dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/textViewSetOrigin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Origin"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonSetOrigin"
+        app:layout_constraintEnd_toEndOf="@+id/imageButtonSetOrigin"
+        app:layout_constraintStart_toStartOf="@+id/imageButtonSetOrigin"
+        app:layout_constraintTop_toTopOf="@+id/imageButtonSetOrigin" />
+
+    <TextView
+        android:id="@+id/textViewStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonStop"
+        app:layout_constraintEnd_toEndOf="@+id/imageButtonStop"
+        app:layout_constraintStart_toStartOf="@+id/imageButtonStop"
+        app:layout_constraintTop_toTopOf="@+id/imageButtonStop" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
